@@ -18,14 +18,17 @@ public class Rifle : MonoBehaviour
     public bool isShooting = false; //¿Estoy disparando?
 
     //Variabes para las animaciones.
-    private float reloadTime = 3.0f; //Tiempo que tarda en recargar el jugador.
+    private float reloadTime = 1f; //Tiempo que tarda en recargar el jugador.
     public Animator animator; //Animación de recarga.
+
+    //Sonidos
+    public AudioSource shoot;
+    public AudioSource reload;
 
     void Start()
     {
         currentClip = maxClip;
         currentBackupAmmo = backupAmmo;
-        
     }
 
     void Update()
@@ -44,6 +47,7 @@ public class Rifle : MonoBehaviour
             //Disparamos
             if (Input.GetKey(KeyCode.Mouse0) && Time.time >= rifleParameters.nextTimeToFire && haveAmmo && !isReloading)
             {
+                shoot.Play();
                 rifleParameters.nextTimeToFire = Time.time + 1f / rifleParameters.fireRate; //Aumentamos la velocidad de disparo.
                 rifleParameters.Shoot();
                 rifleParameters.EnableParticles();
@@ -70,6 +74,7 @@ public class Rifle : MonoBehaviour
             //Recarga si pulsa R y muestra mensaje.
             if (Input.GetKeyDown(KeyCode.R) && !isShooting && currentClip != maxClip)
             {
+                
                 StartCoroutine(Reload());
                 Debug.Log("Recargando...");
                 //Cambiar el debug.log por un CANVAS.
@@ -95,7 +100,7 @@ public class Rifle : MonoBehaviour
             animator.SetBool("Reloading", true); //Indicamos al animator que ponga la variable "Reloading" en true.
             isReloading = true; // Jugador recargando.
             yield return new WaitForSeconds(reloadTime); //Tiempo de espera mientras se efectua la animación de recarga.
-
+            reload.Play(); //Ejecutamos el sonido de recarga porque ya hemos acoplado el cargador.
             float ammoToReload; //Munición que necesitamos recargar.
             ammoToReload = maxClip - currentClip; //La munición que necesitamos recargar es la munición del cargador lleno menos la de nuestro cargador.
 

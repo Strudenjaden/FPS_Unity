@@ -17,13 +17,17 @@ public class Pistol : MonoBehaviour
     public bool isShooting = false; //¿Estoy disparando?
 
     //Variabes para las animaciones.
-    private float reloadTime = 3.0f; //Tiempo que tarda en recargar el jugador.
+    private float reloadTime = 1f; //Tiempo que tarda en recargar el jugador.
     public Animator animator; //Animación de recarga.
+
+    public AudioSource shoot;
+    public AudioSource reload;
 
     void Start()
     {
         currentClip = maxClip;
         currentBackupAmmo = backupAmmo;
+        
     }
 
     void Update()
@@ -58,6 +62,7 @@ public class Pistol : MonoBehaviour
             //Recarga si pulsa R y muestra mensaje.
             if (Input.GetKeyDown(KeyCode.R) && !isShooting && currentClip != maxClip)
             {
+                
                 StartCoroutine(Reload());
                 Debug.Log("Recargando...");
                 //Cambiar el debug.log por un CANVAS.
@@ -77,6 +82,7 @@ public class Pistol : MonoBehaviour
     {
         GameObject pistol = GameObject.FindGameObjectWithTag("Pistol"); //Busca el GameObject con el tag Rifle (el arma Rifle). Añadir el tag Rifle si no lo está.
         WeaponManager pistolParameters = pistol.GetComponent<WeaponManager>(); //Cogemos el script "Weapon Manager" en el GameObject pistol anteriormente creado.
+        shoot.Play();
         pistolParameters.Shoot();
         pistolParameters.EnableParticles();
 
@@ -93,7 +99,7 @@ public class Pistol : MonoBehaviour
             animator.SetBool("Reloading", true); //Indicamos al animator que ponga la variable "Reloading" en true.
             isReloading = true; // Jugador recargando.
             yield return new WaitForSeconds(reloadTime); //Tiempo de espera mientras se efectua la animación de recarga.
-
+            reload.Play(); //Ejecutamos el sonido de recarga porque ya hemos acoplado el cargador.
             float ammoToReload; //Munición que necesitamos recargar.
             ammoToReload = maxClip - currentClip; //La munición que necesitamos recargar es la munición del cargador lleno menos la de nuestro cargador.
 
