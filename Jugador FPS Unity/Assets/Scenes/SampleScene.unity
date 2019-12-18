@@ -3034,6 +3034,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxLife: 100
+  player: {fileID: 2012354550}
   currentLife: 0
 --- !u!1 &2079361985
 GameObject:
