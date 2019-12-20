@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class Pistol : MonoBehaviour
 {
+    //Variables del daño, rango, velocidad de disparo y potencia de la bala
+    public static float damage = 25f; //Declaramos la variable de daño que tendrá el arma activa.
+    public float range = 30f; //Declaramos la variable de rango que tendrá el arma activa.
+    public float impactForce = 120f; //Declaramos la variable de fuerza de impacto que tendrá el arma activa.
+    //public float nextTimeToFire = 0f; //Tiempo para ejecutar el siguiente disparo. (Por si queremos que espere cierto tiempo)
+
     //Variables de munición del arma
     public float maxClip = 7; //Maxima munición que entra en el cargador.
     public float currentClip; //Munición que hay en el cargador.
@@ -27,7 +33,7 @@ public class Pistol : MonoBehaviour
     {
         currentClip = maxClip;
         currentBackupAmmo = backupAmmo;
-        
+
     }
 
     void OnEnable()
@@ -35,18 +41,18 @@ public class Pistol : MonoBehaviour
         isReloading = false;
         animator.SetBool("Reloading", false);
         reload.Stop();
+
     }
 
     void Update()
     {
         GameObject pistol = GameObject.FindGameObjectWithTag("Pistol"); //Busca el GameObject con el tag Rifle (el arma Rifle). Añadir el tag Rifle si no lo está.
         WeaponManager pistolParameters = pistol.GetComponent<WeaponManager>(); //Cogemos el script "Weapon Manager" en el GameObject pistol anteriormente creado.
-
         if (pistol.activeSelf) //Comprueba que la pistola esté activada. (Sea el arma seleccionada)
         {
-            pistolParameters.damage = 25f;
-            pistolParameters.range = 30f;
-            pistolParameters.impactForce = 120f;
+            pistolParameters.damage = damage;
+            pistolParameters.range = range;
+            pistolParameters.impactForce = impactForce;
 
             //Disparamos
             if (Input.GetKeyDown(KeyCode.Mouse0) && haveAmmo && !isReloading)

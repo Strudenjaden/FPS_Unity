@@ -10,7 +10,6 @@ public class WeaponManager : MonoBehaviour
      * hacer con el arma.
      * Los valores de cada variable se los pasamos por el script asignado a cada arma (nombreArma.cs)
      */
-
     public float damage; //Declaramos la variable de daño que tendrá el arma activa.
     public float range; //Declaramos la variable de rango que tendrá el arma activa.
     public float fireRate; //Declaramos la variable de velocidad de disparo que tendrá el arma activa.

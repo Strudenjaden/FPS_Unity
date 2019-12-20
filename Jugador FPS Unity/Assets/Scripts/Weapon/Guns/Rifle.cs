@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class Rifle : MonoBehaviour
 {
+    //Variables del daño, rango, velocidad de disparo y potencia de la bala
+    public static float damage = 10f; //Declaramos la variable de daño que tendrá el arma activa.
+    public float range = 50f; //Declaramos la variable de rango que tendrá el arma activa.
+    public float fireRate = 7f; //Declaramos la variable de velocidad de disparo que tendrá el arma activa.
+    public float impactForce = 35f; //Declaramos la variable de fuerza de impacto que tendrá el arma activa.
+    //public float nextTimeToFire = 0f; //Tiempo para ejecutar el siguiente disparo. (Por si queremos que espere cierto tiempo)
 
     //Variables de munición del arma
     public float maxClip = 30; //Maxima munición que entra en el cargador.
@@ -45,10 +51,10 @@ public class Rifle : MonoBehaviour
         if (rifle.activeSelf) //Comprueba que el rifle esté activado. (Sea el arma seleccionada)
         {
             //Recogemos la variables del Script "WeaponManager" y les asignamos un valor
-            rifleParameters.damage = 10f;
-            rifleParameters.fireRate = 7f;
-            rifleParameters.range = 50f;
-            rifleParameters.impactForce = 35f;
+            rifleParameters.damage = damage;
+            rifleParameters.range = range;
+            rifleParameters.fireRate = fireRate;
+            rifleParameters.impactForce = impactForce;
 
 
             //Disparamos

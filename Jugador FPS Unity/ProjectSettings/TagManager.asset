@@ -8,6 +8,7 @@ TagManager:
   - crouchArea
   - Rifle
   - Pistol
+  - InstaKill
   layers:
   - Default
   - TransparentFX
