@@ -440,7 +440,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 65657ba95d6ac6740acffdf76ebd079a, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.005
+  m_Volume: 0.05
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -1785,7 +1785,7 @@ MonoBehaviour:
   currentClip: 0
   backupAmmo: 70
   currentBackupAmmo: 0
-  haveAmmo: 0
+  haveAmmo: 1
   isReloading: 0
   isShooting: 0
   animator: {fileID: 810638699}

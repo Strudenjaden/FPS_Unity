@@ -30,6 +30,13 @@ public class Pistol : MonoBehaviour
         
     }
 
+    void OnEnable()
+    {
+        isReloading = false;
+        animator.SetBool("Reloading", false);
+        reload.Stop();
+    }
+
     void Update()
     {
         GameObject pistol = GameObject.FindGameObjectWithTag("Pistol"); //Busca el GameObject con el tag Rifle (el arma Rifle). Añadir el tag Rifle si no lo está.
@@ -99,7 +106,7 @@ public class Pistol : MonoBehaviour
             animator.SetBool("Reloading", true); //Indicamos al animator que ponga la variable "Reloading" en true.
             isReloading = true; // Jugador recargando.
             yield return new WaitForSeconds(reloadTime); //Tiempo de espera mientras se efectua la animación de recarga.
-            reload.Play(); //Ejecutamos el sonido de recarga porque ya hemos acoplado el cargador.
+            reload.Play();
             float ammoToReload; //Munición que necesitamos recargar.
             ammoToReload = maxClip - currentClip; //La munición que necesitamos recargar es la munición del cargador lleno menos la de nuestro cargador.
 
@@ -113,9 +120,9 @@ public class Pistol : MonoBehaviour
                 currentClip += currentBackupAmmo; //El cargador suma la munición que tengamos de repuesto.
                 currentBackupAmmo = 0; //Ponemos el repuesto a 0.
             }
+            
+            yield return new WaitForSeconds(.8f); //Tiempo de espera para recolocar el arma durante la animación de recarga.
             animator.SetBool("Reloading", false); //Indicamos al animator que ponga la variable "Reloading" en false.
-
-            yield return new WaitForSeconds(0.8f); //Tiempo de espera para recolocar el arma durante la animación de recarga.
             isReloading = false; //Jugador ya no esta recargando
             haveAmmo = true; //Jugador tiene balas en el arma.
         }

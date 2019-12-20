@@ -67,7 +67,7 @@ public class WeaponSwitcher : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Alpha2) && transform.childCount >= 2)
         {
             //Pistola. Siempre al final. Así se sacará moviendo la rueda del ratón hacia abajo.
-            selectedWeapon = 2;
+            selectedWeapon = 1;
         }
 
         if (previousSelectedWeapon != selectedWeapon)
