@@ -8,7 +8,7 @@ public class Rifle : MonoBehaviour
 
     //Busqueda del objeto rifle y del controlador de las armas
     GameObject rifle; //Variable para guardar el objeto Rifle.
-    WeaponManager rifleParameters; //Variable para guardar la referencia del Script Weapon Manager.
+    //WeaponManager rifleParameters; //Variable para guardar la referencia del Script Weapon Manager.
 
     //Variables del daño, rango, velocidad de disparo y potencia de la bala
     public static float damage = 10f; //Declaramos la variable de daño que tendrá el arma activa.
@@ -47,7 +47,7 @@ public class Rifle : MonoBehaviour
     {
 
         rifle = GameObject.FindGameObjectWithTag("Rifle"); //Busca el GameObject con el tag Rifle (el arma Rifle). Añadir el tag Rifle si no lo está.
-        rifleParameters = rifle.GetComponent<WeaponManager>(); //Cogemos el script WeaponManager en el GameObject rifle anteriormente creado.
+        //rifleParameters = rifle.GetComponent<WeaponManager>(); //Cogemos el script WeaponManager en el GameObject rifle anteriormente creado.
 
         currentClip = maxClip;
         currentBackupAmmo = backupAmmo;

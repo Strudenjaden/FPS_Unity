@@ -9,7 +9,6 @@ public class Pistol : MonoBehaviour
 
     //Busqueda del objeto Pistola y del controlador de las armas
     GameObject pistol; //Variable para guardar el objeto Pistola.
-    WeaponManager pistolParameters; //Variable para guardar la referencia del Script Weapon Manager.
 
     //Variables del daño, rango, velocidad de disparo y potencia de la bala
     public static float damage = 25f; //Declaramos la variable de daño que tendrá el arma activa.
@@ -46,7 +45,6 @@ public class Pistol : MonoBehaviour
     void Start()
     {
         pistol = GameObject.FindGameObjectWithTag("Pistol"); //Busca el GameObject con el tag Rifle (el arma Rifle). Añadir el tag Rifle si no lo está.
-        pistolParameters = pistol.GetComponent<WeaponManager>(); //Cogemos el script "Weapon Manager" en el GameObject pistol anteriormente creado.
 
         currentClip = maxClip;
         currentBackupAmmo = backupAmmo;  
