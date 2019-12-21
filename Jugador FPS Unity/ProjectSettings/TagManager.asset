@@ -9,6 +9,7 @@ TagManager:
   - Rifle
   - Pistol
   - InstaKill
+  - MaxAmmo
   layers:
   - Default
   - TransparentFX
