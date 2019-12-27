@@ -10,6 +10,7 @@ TagManager:
   - Pistol
   - InstaKill
   - MaxAmmo
+  - DoublePoints
   layers:
   - Default
   - TransparentFX

@@ -4,18 +4,16 @@ using UnityEngine;
 
 public class Rifle : MonoBehaviour
 {
-    public Camera camera; //Referencia a la camara. Esto se usrá para indicar que el disparo se efectue al lugar donde estamos mirando.
-
-    //Busqueda del objeto rifle y del controlador de las armas
+    //Busqueda del objeto Rifle y del controlador de las armas.
     GameObject rifle; //Variable para guardar el objeto Rifle.
-    //WeaponManager rifleParameters; //Variable para guardar la referencia del Script Weapon Manager.
+    WeaponManager rifleParameters; //Variable para guardar la referencia del Script Weapon Manager.
 
     //Variables del daño, rango, velocidad de disparo y potencia de la bala
     public static float damage = 10f; //Declaramos la variable de daño que tendrá el arma activa.
-    public float range = 50f; //Declaramos la variable de rango que tendrá el arma activa.
-    public float fireRate = 7f; //Declaramos la variable de velocidad de disparo que tendrá el arma activa.
-    public float impactForce = 35f; //Declaramos la variable de fuerza de impacto que tendrá el arma activa.
-    public float nextTimeToFire = 0f; //Tiempo para ejecutar el siguiente disparo. (Por si queremos que espere cierto tiempo)
+    private float range = 50f; //Declaramos la variable de rango que tendrá el arma activa.
+    private float fireRate = 7f; //Declaramos la variable de velocidad de disparo que tendrá el arma activa.
+    private float impactForce = 35f; //Declaramos la variable de fuerza de impacto que tendrá el arma activa.
+    private float nextTimeToFire = 0f; //Tiempo para ejecutar el siguiente disparo. (Por si queremos que espere cierto tiempo)
 
     //Variables de munición del arma
     public float maxClip = 30; //Maxima munición que entra en el cargador.
@@ -23,6 +21,7 @@ public class Rifle : MonoBehaviour
 
     public static float backupAmmo = 300; //Munición máxima que podemos llevar
     public static float currentBackupAmmo; //Munición máxima que poseemos.
+    public float viewCurrentBackupAmmo;
 
     //Variables booleanas para comprobar acciones o cantidades.
     public bool haveAmmo = true; //¿Hay balas?
@@ -37,20 +36,20 @@ public class Rifle : MonoBehaviour
     public AudioSource shoot; //Sonido de disparo
     public AudioSource reload; //Sonido de Recarga
 
-    /*Variables para el impacto y visualización de las balas*/
-    public ParticleSystem muzzleFlash; //Sistema de particulas del fogonazo del arma.
-    public ParticleSystem bulletTrail; //Sistema de particulas del trazado de la bala.
-    public GameObject impactEffect; // Gameobject que se inicia cuando la bala impacta contra un objeto.
-    public GameObject impactEffectEnemy; // Gameobject que se inicia cuando la bala impacta contra un enemigo.
-
     void Start()
     {
 
         rifle = GameObject.FindGameObjectWithTag("Rifle"); //Busca el GameObject con el tag Rifle (el arma Rifle). Añadir el tag Rifle si no lo está.
-        //rifleParameters = rifle.GetComponent<WeaponManager>(); //Cogemos el script WeaponManager en el GameObject rifle anteriormente creado.
+        rifleParameters = rifle.GetComponent<WeaponManager>(); //Cogemos el script WeaponManager en el GameObject rifle anteriormente creado.
 
         currentClip = maxClip;
         currentBackupAmmo = backupAmmo;
+
+        
+        rifleParameters.range = range;
+        rifleParameters.fireRate = fireRate;
+        rifleParameters.impactForce = impactForce;
+        
 
     }
 
@@ -63,6 +62,10 @@ public class Rifle : MonoBehaviour
 
     void Update()
     {
+        rifleParameters.nextTimeToFire = nextTimeToFire;
+        rifleParameters.damage = damage; //El daño lo ponemos en Update para que pueda ser actualizable por el script de "Bonus";
+        viewCurrentBackupAmmo = currentBackupAmmo; //Para ver la munición ya que es estatico.
+
         if (rifle.activeSelf) //Comprueba que el rifle esté activado. (Sea el arma seleccionada)
         {
 
@@ -71,8 +74,8 @@ public class Rifle : MonoBehaviour
             {
                 shoot.Play();
                 nextTimeToFire = Time.time + 1f / fireRate; //Aumentamos la velocidad de disparo.
-                Shoot();
-                EnableParticles();
+                rifleParameters.Shoot();
+                rifleParameters.EnableParticles();
                 currentClip--; //Restamos balas del cargador.
                 isShooting = true; //El jugador está disparando.
 
@@ -80,7 +83,7 @@ public class Rifle : MonoBehaviour
                 {
                     haveAmmo = false; //No le quedan balas al cargador.
                     isShooting = false; //El jugador ya no esta disparando.
-                    DisableParticles();
+                    rifleParameters.DisableParticles();
                     Debug.Log("Sin balas en el cargador Rifle");
                 }
 
@@ -89,7 +92,7 @@ public class Rifle : MonoBehaviour
             //Ya no disparamos. Desactivamos todo lo que tenga que ver en relación al arma.
             if (Input.GetKeyUp(KeyCode.Mouse0))
             {
-                DisableParticles();
+                rifleParameters.DisableParticles();
                 isShooting = false; //El jugador ya no esta disparando.
             }
 
@@ -122,7 +125,7 @@ public class Rifle : MonoBehaviour
         {
             animator.SetBool("Reloading", true); //Indicamos al animator que ponga la variable "Reloading" en true.
             isReloading = true; // Jugador recargando.
-            yield return new WaitForSeconds(reloadTime); //Tiempo de espera mientras se efectua la animación de recarga.
+            yield return new WaitForSecondsRealtime(reloadTime); //Tiempo de espera mientras se efectua la animación de recarga.
             reload.Play(); //Ejecutamos el sonido de recarga porque ya hemos acoplado el cargador.
             float ammoToReload; //Munición que necesitamos recargar.
             ammoToReload = maxClip - currentClip; //La munición que necesitamos recargar es la munición del cargador lleno menos la de nuestro cargador.
@@ -138,8 +141,9 @@ public class Rifle : MonoBehaviour
                 currentBackupAmmo = 0; //Ponemos el repuesto a 0.
             }
 
-            yield return new WaitForSeconds(0.8f); //Tiempo de espera para recolocar el arma durante la animación de recarga.
+            yield return new WaitForSecondsRealtime(.5f); //Sonido del acople del cargador
             animator.SetBool("Reloading", false); //Indicamos al animator que ponga la variable "Reloading" en false.
+            yield return new WaitForSecondsRealtime(.25f); //Tiempo de espera para recolocar el arma durante la animación de recarga.
             isReloading = false; //Jugador ya no esta recargando
             haveAmmo = true; //Jugador tiene balas en el arma.
         }
@@ -148,71 +152,5 @@ public class Rifle : MonoBehaviour
             Debug.Log("No puedes recargar, no tienes balas de repuesto.");
             isReloading = false; //El jugador ya no esta recargando.
         }
-    }
-
-    /*
-    * Método con el que dispara nuestro jugador.
-    * A través de un Raycast le decimos el lugar y la distancia que queremos que tenga el disparo.
-    * Si encuentra un enemigo durante el recorrido le hará el daño de la variable "damage" que se la pasa como parámetro al Script "Enemy"
-    * Si no moverá un objeto si tiene fisica y se puede mover.
-    * Por último inicia un efecto de impacto, lo elimina pasados 1s.
-    */
-    public void Shoot()
-    {
-
-        RaycastHit hit; //Creamos un raycast para representar el disparo.
-
-        if (Physics.Raycast(camera.transform.position, camera.transform.forward, out hit, range))
-        {
-            Debug.Log(hit.transform.name); //Muestra por consola el nombre del GameObject donde ha impactado el rayo "disparo".
-
-            Enemy enemy = hit.transform.GetComponent<Enemy>(); //Llamamos al script del Enemigo y lo asignamos con el rayo.
-
-
-            if (enemy != null) //Comprueba si el impacto colisiona contra un enemigo. (Lo detecta mediante si el GameObject tiene el script Enemigo)
-            {
-                enemy.TakeDamage(damage); //Daño que recibe el enemigo. El valor damage se le pasa al Script "Enemy" como parametro "amount".
-                GameObject impactGoEnemy = Instantiate(impactEffectEnemy, hit.point, Quaternion.LookRotation(hit.normal)); //Instancia un GameObject (prefab fuera del Hierarchy) 
-                                                                                                                           //en el lugar donde haya impactado el rayo. 
-                                                                                                                           //En este caso el efecto de impacto hacia un enemigo.
-                Destroy(impactGoEnemy, 1f); //Destruye el impacto pasados 1 segundo.
-                Score.scoreValue += 10;
-            }
-            else
-            {
-                GameObject impactGo = Instantiate(impactEffect, hit.point, Quaternion.LookRotation(hit.normal)); //Instancia un GameObject (prefab fuera del Hierarchy) 
-                                                                                                                 //en el lugar donde haya impactado el rayo.
-                                                                                                                 //En este caso el efecto de impacto hacia algo que no es enemigo.
-                Destroy(impactGo, 1f); //Destruye el impacto pasados 1 segundo.
-            }
-
-            if (hit.rigidbody != null) //Comprueba si el impacto colisiona contra un rigidbody.
-            {
-                hit.rigidbody.AddForce(-hit.normal * impactForce); //Aplica una fuerza en la dirección en la que golpee el impacto para mover el objeto.
-            }
-
-
-        }
-    }
-
-    /*
-    * Activa los sistemas de particulas de las armas.
-    */
-    public void EnableParticles()
-    {
-
-        muzzleFlash.Play(); //Activamos el sistema de particulas del fogonazo.
-        bulletTrail.Play(); //Activamos el sistema de particulas del trazado de la bala.
-    }
-
-    /*
-    * Desactiva los sistema de particulas de las armas. 
-    */
-    public void DisableParticles()
-    {
-
-        muzzleFlash.Stop(); //Desactivamos el sistema de particulas del fogonazo.
-        bulletTrail.Stop(); //Desactivamos el sistema de particulas del trazado de la bala
-
     }
 }
