@@ -25,54 +25,58 @@ public class WeaponSwitcher : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        int previousSelectedWeapon = selectedWeapon;
-
-        if (Input.GetAxis("Mouse ScrollWheel") > 0f)
+        if (!PauseMenu.GamePaused)
         {
-            if (selectedWeapon >= transform.childCount - 1)
+
+            int previousSelectedWeapon = selectedWeapon;
+
+            if (Input.GetAxis("Mouse ScrollWheel") > 0f)
             {
+                if (selectedWeapon >= transform.childCount - 1)
+                {
+                    selectedWeapon = 0;
+
+                }
+                else
+                {
+                    selectedWeapon++;
+                }
+            }
+
+            if (Input.GetAxis("Mouse ScrollWheel") < 0f)
+            {
+                if (selectedWeapon <= 0)
+                {
+                    selectedWeapon = transform.childCount - 1;
+                }
+                else
+                {
+                    selectedWeapon--;
+                }
+            }
+
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                //Rifle
                 selectedWeapon = 0;
-
             }
-            else
+
+            /*if (Input.GetKeyDown(KeyCode.Alpha2) && transform.childCount >= 2)
             {
-                selectedWeapon++;
-            }
-        }
+                //Opcional
+                selectedWeapon = 1;
+            }*/
 
-        if (Input.GetAxis("Mouse ScrollWheel") < 0f)
-        {
-            if (selectedWeapon <= 0)
+            if (Input.GetKeyDown(KeyCode.Alpha2) && transform.childCount >= 2)
             {
-                selectedWeapon = transform.childCount - 1;
+                //Pistola. Siempre al final. Así se sacará moviendo la rueda del ratón hacia abajo.
+                selectedWeapon = 1;
             }
-            else
+
+            if (previousSelectedWeapon != selectedWeapon)
             {
-                selectedWeapon--;
+                SelectWeapon();
             }
-        }
-
-        if (Input.GetKeyDown(KeyCode.Alpha1))
-        {
-            //Rifle
-            selectedWeapon = 0;
-        }
-
-        /*if (Input.GetKeyDown(KeyCode.Alpha2) && transform.childCount >= 2)
-        {
-            //Opcional
-            selectedWeapon = 1;
-        }*/
-
-        if (Input.GetKeyDown(KeyCode.Alpha2) && transform.childCount >= 2)
-        {
-            //Pistola. Siempre al final. Así se sacará moviendo la rueda del ratón hacia abajo.
-            selectedWeapon = 1;
-        }
-
-        if (previousSelectedWeapon != selectedWeapon)
-        {
-            SelectWeapon();
         }
     }
 

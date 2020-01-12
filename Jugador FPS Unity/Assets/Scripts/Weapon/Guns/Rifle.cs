@@ -66,7 +66,7 @@ public class Rifle : MonoBehaviour
         rifleParameters.damage = damage; //El daño lo ponemos en Update para que pueda ser actualizable por el script de "Bonus";
         viewCurrentBackupAmmo = currentBackupAmmo; //Para ver la munición ya que es estatico.
 
-        if (rifle.activeSelf) //Comprueba que el rifle esté activado. (Sea el arma seleccionada)
+        if (rifle.activeSelf & !PauseMenu.GamePaused) //Comprueba que el rifle esté activado. (Sea el arma seleccionada)
         {
 
             //Disparamos

@@ -64,7 +64,7 @@ public class Pistol : MonoBehaviour
     {
         pistolParameters.damage = damage;
         viewCurrentBackupAmmo = currentBackupAmmo;
-        if (pistol.activeSelf) //Comprueba que la pistola esté activada. (Sea el arma seleccionada)
+        if (pistol.activeSelf && !PauseMenu.GamePaused) //Comprueba que la pistola esté activada y el juego no esté pausado. (Sea el arma seleccionada)
         {
             //Disparamos
             if (Input.GetKeyDown(KeyCode.Mouse0) && haveAmmo && !isReloading)
