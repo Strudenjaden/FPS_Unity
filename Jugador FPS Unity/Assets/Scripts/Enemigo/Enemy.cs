@@ -11,7 +11,7 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
 
-    public float health = 100f; //Vida jugador
+    public float health = 100f; //Vida enemigo
     public bool isAttacking; 
     public GameObject player;
     public Animator animator;
@@ -82,17 +82,17 @@ public class Enemy : MonoBehaviour
 
         if (selectedBonus == 1) //Al ser 1 se instanciará el PowerUp de InstaKill.
         {
-            Instantiate(instaKill, enemyPos.position, enemyPos.rotation);
+            Instantiate(instaKill, new Vector3(enemyPos.transform.position.x, enemyPos.transform.position.y, enemyPos.transform.position.z), enemyPos.transform.rotation);
         }
 
         if (selectedBonus == 2) //Al ser 2 se instanciará el PowerUp de Double Points.
         {
-            Instantiate(doublePoints, enemyPos.position, enemyPos.rotation);
+            Instantiate(doublePoints, new Vector3(enemyPos.transform.position.x, enemyPos.transform.position.y, enemyPos.transform.position.z), enemyPos.transform.rotation);
         }
 
         if (selectedBonus == 3) //Al ser 3 se instanciará el PowerUp de Max Ammo.
         {
-            Instantiate(maxAmmo, enemyPos.position, enemyPos.rotation);
+            Instantiate(maxAmmo, new Vector3(enemyPos.transform.position.x, enemyPos.transform.position.y, enemyPos.transform.position.z), enemyPos.transform.rotation);
         }
 
     }
