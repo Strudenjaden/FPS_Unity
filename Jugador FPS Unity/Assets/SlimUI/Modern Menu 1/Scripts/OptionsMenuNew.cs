@@ -26,12 +26,12 @@ public class OptionsMenuNew : MonoBehaviour {
 		musicSlider.GetComponent<Slider>().value = PlayerPrefs.GetFloat("MusicVolume");
 
 		// check full screen
-		if(Screen.fullScreen == true){
+		/*if(Screen.fullScreen == true){
 			fullscreentext.GetComponent<TMP_Text>().text = "ON";
 		}
 		else if(Screen.fullScreen == false){
 			fullscreentext.GetComponent<TMP_Text>().text = "OFF";
-		}
+		}*/
 
 
 		// check vsync
@@ -71,10 +71,10 @@ public class OptionsMenuNew : MonoBehaviour {
 		Screen.fullScreen = !Screen.fullScreen;
 
 		if(Screen.fullScreen == true){
-			fullscreentext.GetComponent<TMP_Text>().text = "ON";
+			fullscreentext.GetComponent<TMP_Text>().text = "OFF";
 		}
 		else if(Screen.fullScreen == false){
-			fullscreentext.GetComponent<TMP_Text>().text = "OFF";
+			fullscreentext.GetComponent<TMP_Text>().text = "ON";
 		}
 	}
 
