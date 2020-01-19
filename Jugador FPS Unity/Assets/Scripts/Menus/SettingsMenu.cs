@@ -3,12 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Audio;
+using TMPro;
+
 public class SettingsMenu : MonoBehaviour
 {
     public AudioMixer audioMixer;
-
     Resolution[] resolutions;
-    public Dropdown resolutionDropdown;
+    public TMP_Dropdown resolutionDropdown;
+    public static bool settingsEnabled;
 
     void Start()
     {
@@ -55,5 +57,10 @@ public class SettingsMenu : MonoBehaviour
     public void isFullScreen (bool fullScreen)
     {
         Screen.fullScreen = fullScreen;
+    }
+
+    public void backButton(bool options)
+    {
+        settingsEnabled = options;
     }
 }

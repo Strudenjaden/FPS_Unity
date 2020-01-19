@@ -82,17 +82,17 @@ public class Enemy : MonoBehaviour
 
         if (selectedBonus == 1) //Al ser 1 se instanciará el PowerUp de InstaKill.
         {
-            Instantiate(instaKill, new Vector3(enemyPos.transform.position.x, enemyPos.transform.position.y, enemyPos.transform.position.z), enemyPos.transform.rotation);
+            Instantiate(instaKill, enemyPos.position, enemyPos.rotation);
         }
 
         if (selectedBonus == 2) //Al ser 2 se instanciará el PowerUp de Double Points.
         {
-            Instantiate(doublePoints, new Vector3(enemyPos.transform.position.x, enemyPos.transform.position.y, enemyPos.transform.position.z), enemyPos.transform.rotation);
+            Instantiate(doublePoints, enemyPos.position, enemyPos.rotation);
         }
 
         if (selectedBonus == 3) //Al ser 3 se instanciará el PowerUp de Max Ammo.
         {
-            Instantiate(maxAmmo, new Vector3(enemyPos.transform.position.x, enemyPos.transform.position.y, enemyPos.transform.position.z), enemyPos.transform.rotation);
+            Instantiate(maxAmmo, enemyPos.position, enemyPos.rotation);
         }
 
     }

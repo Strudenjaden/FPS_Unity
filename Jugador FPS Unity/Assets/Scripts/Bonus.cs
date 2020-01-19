@@ -88,5 +88,4 @@ public class Bonus : MonoBehaviour
         Score.scorePoints = resetToNormalPoints; //Reseteamos el valor de los puntos.
     }
 
-
 }

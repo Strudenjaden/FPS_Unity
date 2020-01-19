@@ -12,6 +12,10 @@ public class PlayerCamera : MonoBehaviour
     [SerializeField]
     Transform player, playerArms;
 
+    public float contador = 0;
+    public float tiempo = .5f;
+    public bool terminado = false;
+
 
     private void Update()
     {
@@ -50,4 +54,5 @@ public class PlayerCamera : MonoBehaviour
         playerArms.rotation = Quaternion.Euler(rotPlayerArms);
         player.rotation = Quaternion.Euler(rotPlayer);
     }
+
 }

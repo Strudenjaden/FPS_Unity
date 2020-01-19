@@ -45,8 +45,6 @@ public class PlatformController : MonoBehaviour
     public void OnTriggerEnter(Collider other)
     {
 
-        Debug.Log("No entro en el IF");
-
         if (other.gameObject.CompareTag("Enemy"))
         {
             enemy = other.GetComponent<Enemy>();
@@ -58,13 +56,13 @@ public class PlatformController : MonoBehaviour
 
     }
 
-    /*public void OnTriggerExit(Collider other)
+    public void OnTriggerExit(Collider other)
     {
-        if (other.tag == "Enemy")
+        if (other.gameObject.CompareTag("Enemy"))
         {
             dentro = false;
         }
     }
-    */
+    
 
 }

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour
 {
@@ -17,7 +18,7 @@ public class PauseMenu : MonoBehaviour
     void Update()
     {
         
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) && !SettingsMenu.settingsEnabled)
         {
             if (GamePaused)
             {
@@ -47,5 +48,14 @@ public class PauseMenu : MonoBehaviour
         GamePaused = true;
         mainCamera.GetComponent<PlayerCamera>().enabled = false; //Cogemos el script PlayerCamera y lo deshabilitamos para que no se mueva la camara.
         //Las armas las desactivamos desde sus propios scripts con !PauseMenu.GamePaused ya que comprueba que si está pausado el juego no se puedan utilizar.
+    }
+
+    public void QuitGame()
+    {
+        pauseMenuUI.SetActive(false);
+        Time.timeScale = 1f;
+        GamePaused = false;
+        mainCamera.GetComponent<PlayerCamera>().enabled = true;
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex - 1);
     }
 }
