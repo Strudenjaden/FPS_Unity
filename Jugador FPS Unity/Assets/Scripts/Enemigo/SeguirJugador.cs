@@ -14,6 +14,7 @@ public class SeguirJugador : MonoBehaviour
     void Start()
     {
         enemigo = GetComponent<UnityEngine.AI.NavMeshAgent>();
+        jugador = FindObjectOfType<PlayerHealth>().transform;
 
     }
 

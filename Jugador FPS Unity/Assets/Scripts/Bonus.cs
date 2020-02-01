@@ -5,7 +5,6 @@ using UnityEngine.UI;
 
 public class Bonus : MonoBehaviour
 {
-    [SerializeField]
     private float instaKillDamage = 9999f; //Declaramos el daño para asegurarnos que mataremos de un golpe al enemigo.
     private float instaKillTime = 3f; //Tiempo que durará el insta kill a los enemigos.
     private float doublePointsTime = 5f; //Tiempo que durarán los puntos dobles.
@@ -13,7 +12,7 @@ public class Bonus : MonoBehaviour
     //Resets.
     private float resetToNormalDamageRifle; //Guarda el daño normal del arma Rifle para cuando acabe el Insta Kill este se resetee.
     private float resetToNormalDamagePistol; //Guarda el daño normal del arma Pistola para cuando acabe el Insta Kill este se resetee.
-    private int resetToNormalPoints;
+    private int resetToNormalPoints; //Guarda el valor normal de los puntos que obtenes para que cuando acabe el Insta Kill este se retee.
 
     //Textos
     
@@ -21,7 +20,7 @@ public class Bonus : MonoBehaviour
     {
         resetToNormalDamageRifle = Rifle.damage; //Le asignamos el daño inicial del arma Rifle.
         resetToNormalDamagePistol = Pistol.damage;  //Le asiganmos el daño inicial del arma Pistola.
-        resetToNormalPoints = Score.scorePoints;
+        resetToNormalPoints = Score.scorePoints; //Le asignamos el valor inicial de los puntos conseguidos.
         
     }
 

@@ -5,19 +5,20 @@ using TMPro;
 
 public class OptionsMenuNew : MonoBehaviour {
 
-	public enum Platform {Desktop, Mobile};
-	public Platform platform;
-
 	[Header("VIDEO SETTINGS")]
 	public GameObject fullscreentext;
 	public GameObject vsynctext;
 	public GameObject texturelowtextLINE;
 	public GameObject texturemedtextLINE;
 	public GameObject texturehightextLINE;
+	
 
 	// sliders
 	public GameObject musicSlider;
 	private float sliderValue = 0.0f;
+
+	//Valor que le pasamos al script del Menú de Opciones en la otra escena y que utilizamos para comprobar.
+	public static int qualityValue;
 	
 
 	public void  Start (){
@@ -25,13 +26,13 @@ public class OptionsMenuNew : MonoBehaviour {
 		// check slider values
 		musicSlider.GetComponent<Slider>().value = PlayerPrefs.GetFloat("MusicVolume");
 
-		// check full screen
-		/*if(Screen.fullScreen == true){
-			fullscreentext.GetComponent<TMP_Text>().text = "ON";
+		 //check full screen
+		if(Screen.fullScreen == true){
+			fullscreentext.GetComponent<TMP_Text>().text = "PANTALLA COMPLETA";
 		}
 		else if(Screen.fullScreen == false){
-			fullscreentext.GetComponent<TMP_Text>().text = "OFF";
-		}*/
+			fullscreentext.GetComponent<TMP_Text>().text = "MODO VENTANA";
+		}
 
 
 		// check vsync
@@ -43,38 +44,43 @@ public class OptionsMenuNew : MonoBehaviour {
 		}
 
 		// check texture quality
-		if(PlayerPrefs.GetInt("Textures") == 0){
-			QualitySettings.masterTextureLimit = 2;
-			texturelowtextLINE.gameObject.SetActive(true);
-			texturemedtextLINE.gameObject.SetActive(false);
-			texturehightextLINE.gameObject.SetActive(false);
+		if (qualityValue == 0)
+		{
+			texturemedtextLINE.SetActive(false);
+			texturelowtextLINE.SetActive(false);
+
 		}
-		else if(PlayerPrefs.GetInt("Textures") == 1){
-			QualitySettings.masterTextureLimit = 1;
-			texturelowtextLINE.gameObject.SetActive(false);
-			texturemedtextLINE.gameObject.SetActive(true);
-			texturehightextLINE.gameObject.SetActive(false);
+
+		if (qualityValue == 1)
+		{
+			texturehightextLINE.SetActive(false);
+			texturelowtextLINE.SetActive(false);
+
 		}
-		else if(PlayerPrefs.GetInt("Textures") == 2){
-			QualitySettings.masterTextureLimit = 0;
-			texturelowtextLINE.gameObject.SetActive(false);
-			texturemedtextLINE.gameObject.SetActive(false);
-			texturehightextLINE.gameObject.SetActive(true);
+
+		if (qualityValue== 2)
+		{
+			texturehightextLINE.SetActive(false);
+			texturemedtextLINE.SetActive(false);
+
 		}
 	}
 
 	public void  Update (){
 		sliderValue = musicSlider.GetComponent<Slider>().value;
+
 	}
 
 	public void  FullScreen (){
+		
 		Screen.fullScreen = !Screen.fullScreen;
+		Debug.Log(Screen.fullScreen);
 
 		if(Screen.fullScreen == true){
-			fullscreentext.GetComponent<TMP_Text>().text = "OFF";
+			fullscreentext.GetComponent<TMP_Text>().text = "MODO VENTANA";
 		}
 		else if(Screen.fullScreen == false){
-			fullscreentext.GetComponent<TMP_Text>().text = "ON";
+			fullscreentext.GetComponent<TMP_Text>().text = "PANTALLA COMPLETA";
 		}
 	}
 
@@ -86,6 +92,7 @@ public class OptionsMenuNew : MonoBehaviour {
 		if(QualitySettings.vSyncCount == 0){
 			QualitySettings.vSyncCount = 1;
 			vsynctext.GetComponent<TMP_Text>().text = "ON";
+			
 		}
 		else if(QualitySettings.vSyncCount == 1){
 			QualitySettings.vSyncCount = 0;
@@ -93,27 +100,32 @@ public class OptionsMenuNew : MonoBehaviour {
 		}
 	}
 
-	public void  TexturesLow (){
-		PlayerPrefs.SetInt("Textures",0);
-		QualitySettings.masterTextureLimit = 2;
-		texturelowtextLINE.gameObject.SetActive(true);
-		texturemedtextLINE.gameObject.SetActive(false);
-		texturehightextLINE.gameObject.SetActive(false);
-	}
+    public void QualityManager(int qualityIndex)
+    {
+		QualitySettings.SetQualityLevel(qualityIndex);
 
-	public void  TexturesMed (){
-		PlayerPrefs.SetInt("Textures",1);
-		QualitySettings.masterTextureLimit = 1;
-		texturelowtextLINE.gameObject.SetActive(false);
-		texturemedtextLINE.gameObject.SetActive(true);
-		texturehightextLINE.gameObject.SetActive(false);
-	}
+		if (qualityIndex == 0)
+        {
+			qualityValue = qualityIndex;
+            texturemedtextLINE.SetActive(false);
+            texturelowtextLINE.SetActive(false);
 
-	public void  TexturesHigh (){
-		PlayerPrefs.SetInt("Textures",2);
-		QualitySettings.masterTextureLimit = 0;
-		texturelowtextLINE.gameObject.SetActive(false);
-		texturemedtextLINE.gameObject.SetActive(false);
-		texturehightextLINE.gameObject.SetActive(true);
-	}
+        }
+
+        if (qualityIndex == 1)
+        {
+			qualityValue = qualityIndex;
+			texturehightextLINE.SetActive(false);
+            texturelowtextLINE.SetActive(false);
+
+        }
+
+        if (qualityIndex == 2)
+        {
+			qualityValue = qualityIndex;
+			texturehightextLINE.SetActive(false);
+            texturemedtextLINE.SetActive(false);
+
+        }
+    }
 }
